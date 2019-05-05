@@ -33,6 +33,31 @@ app.post('/login', function (req, res) {
     // }
 })
 
+// 增加内容接口
+app.post('/add', function (req, res) {
+    var data = [req.body.title, req.body.content, req.body.category]
+    var sql = 'insert into content (title, content, category) values (?, ?, ?)'
+    db.base(sql, data, (results) => {
+        // 插入成功
+        if(results.affectedRows) {
+            res.json(result(true))
+        }else {
+            res.json(result(false))
+        }
+    })
+})
+
+// 查询内容接口
+app.get('/getContent', function (req, res) {
+    var sql = 'select * from content'
+    db.base(sql, [], (results) => {
+        res.json({
+            state: true,
+            results: results
+        })
+    })
+})
+
 app.listen('3000', function () {
     console.log('running...')
 })
